@@ -7,6 +7,9 @@
     <groupId>com.yy</groupId>
     <artifactId>camera</artifactId>
     <version>1.0-SNAPSHOT</version>
-
+    <modules>
+        <module>eureka-server</module>
+        <module>member</module>
+    </modules>
 
 </project>
