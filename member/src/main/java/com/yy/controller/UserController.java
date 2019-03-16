@@ -37,7 +37,7 @@ public class UserController {
 
     @RequestMapping("/login")
     public String login(@NotNull String username, @NotNull String password, Model model){
-        User user = userService.getUser(username,password);
+        User user = userService.login(username,password);
         model.addAttribute("user",user);
         return "index" ;
     }
