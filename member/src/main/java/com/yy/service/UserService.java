@@ -7,4 +7,6 @@ public interface UserService {
     User getUser(String username, String password);
 
     boolean register(RegUserDto userDto);
+
+    User login(String username, String password);
 }

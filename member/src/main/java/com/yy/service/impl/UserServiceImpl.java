@@ -6,6 +6,7 @@ import com.yy.entity.User;
 import com.yy.exception.CodeMsg;
 import com.yy.exception.GlobalException;
 import com.yy.service.UserService;
+import com.yy.utils.MD5Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,9 +27,9 @@ public class UserServiceImpl implements UserService {
 
         String dbPassword = user.getPassword();
 
-        if (dbPassword.equals(password)){
+        if (dbPassword.equals(password)) {
             return user;
-        }else {
+        } else {
             throw new GlobalException(CodeMsg.WRONG_PASSWORD);
         }
 
@@ -38,20 +39,46 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean register(RegUserDto userDto) {
 
-        if (!userDto.getPassword().equals(userDto.getConfirmPassword())){
+        //校验两次输入的密码是否一致，暂时放在这里，之后放到前端验证
+        if (!userDto.getPassword().equals(userDto.getConfirmPassword())) {
             throw new GlobalException(CodeMsg.TWO_PASSWORD);
         }
 
+        //检查用户名是否已经被注册
         User user = userMapper.getUser(userDto.getUsername());
-        if (user != null){
+        if (user != null) {
             throw new GlobalException(CodeMsg.USER_EXISTS);
         }
 
+        //使用MD5并加salt进行密码加密
+        String salt = MD5Util.getSalt();
+        String passwordToDB = MD5Util.inputToDB(userDto.getPassword(), salt);
+        userDto.setPassword(passwordToDB);
+        userDto.setSalt(salt);
+
         int res = userMapper.register(userDto);
-        if (res != 1){
+        if (res != 1) {
             throw new GlobalException(CodeMsg.REGISTER_FAILED);
         }
 
         return true;
+    }
+
+    @Override
+    public User login(@NotNull String username, @NotNull String password) {
+        User user = userMapper.getUser(username);
+
+        if (user == null) {
+            throw new GlobalException(CodeMsg.USER_NOT_EXIST);
+        }
+
+        String salt = user.getSalt();
+        String inputPasswordMD5 = MD5Util.inputToDB(password, salt);
+
+        if (user.getPassword().equals(inputPasswordMD5)) {
+            return user;
+        } else {
+            throw new GlobalException(CodeMsg.WRONG_PASSWORD);
+        }
     }
 }
