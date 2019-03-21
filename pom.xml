@@ -18,6 +18,9 @@
     <modules>
         <module>eureka-server</module>
         <module>member</module>
+        <module>consumer-service</module>
+        <module>gateway</module>
+        <module>yy-test</module>
     </modules>
 
     <parent>

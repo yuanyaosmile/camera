@@ -81,4 +81,10 @@ public class UserServiceImpl implements UserService {
             throw new GlobalException(CodeMsg.WRONG_PASSWORD);
         }
     }
+
+    @Override
+    public User getUserById(long id) {
+
+        return userMapper.getUserById(id);
+    }
 }

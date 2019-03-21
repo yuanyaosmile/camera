@@ -15,4 +15,7 @@ public interface UserMapper {
     @Insert("insert into user(username,password,email,salt) values(#{username},#{password},#{email},#{salt})")
     //@SelectKey(keyColumn="id", keyProperty="id", resultType=long.class, before=false, statement="select last_insert_id()")
     int register( RegUserDto regUserDto);
+
+    @Select("select * from user where id = #{id}")
+    User getUserById(@Param("id") long id);
 }

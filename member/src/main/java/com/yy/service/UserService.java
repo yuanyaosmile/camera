@@ -9,4 +9,6 @@ public interface UserService {
     boolean register(RegUserDto userDto);
 
     User login(String username, String password);
+
+    User getUserById(long id);
 }

@@ -6,9 +6,14 @@ import com.yy.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.validation.constraints.NotNull;
+import java.util.HashMap;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/user")
@@ -53,4 +58,14 @@ public class UserController {
         //model.addAttribute("user",user);
         return "login";
     }
+    @GetMapping("/get/{id}")
+    @ResponseBody
+    public User getUserById(@PathVariable("id") long id){
+        return userService.getUserById(id);
+    }
+
+
+
+
+
 }

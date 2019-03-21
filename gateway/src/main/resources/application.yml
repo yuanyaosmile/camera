@@ -1,0 +1,27 @@
+server:
+  port: 9996
+eureka:
+  client:
+    service-url:
+      defaultZone : http://localhost:9999/eureka/
+zuul:
+  routes:
+    member-service : /user/get/**
+      #path: /member-service/**
+      #url: http://127.0.0.1:9998
+      #serviceId: member-service
+  strip-prefix: false
+spring:
+  application:
+    name: gateway
+
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMillseconds: 6000
+ribbon:
+  ConnectionTimeOut: 500
+  ReadTimeout: 2000

@@ -1,0 +1,16 @@
+server:
+  port: 9996
+eureka:
+  client:
+    service-url:
+      defaultZone : http://localhost:9999/eureka/
+zuul:
+  routes:
+    member-service : /**
+      #path: /member-service/**
+      #url: http://127.0.0.1:9998
+      #serviceId: member-service
+  strip-prefix: false
+spring:
+  application:
+    name: gateway
